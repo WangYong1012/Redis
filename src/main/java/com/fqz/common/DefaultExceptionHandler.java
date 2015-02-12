@@ -12,7 +12,7 @@ public class DefaultExceptionHandler extends ExceptionHandler  {
     public Result handleException(Exception ex) {
         Result result = new Result();
         result.setCode(-500);
-        result.setMessage("internal error");
+        result.setMessage("internal error : " + ex.getMessage() );
         return result;
     }
     @Override

@@ -47,17 +47,35 @@ public class RedisUtil {
 
     }
 
-    public static void set(Day day,String key,String value)throws Exception {
+    public static void set(Day day,String key,String value)throws RedisException {
+        JedisPool jedisPool = getJedisPool(day);
+        Jedis jedis = jedisPool.getResource();
         try{
-            JedisPool jedisPool = jedisPoolMap.get(day);
-            if(jedisPool == null)
-                throw new RedisException(-404, "jedis pool not found");
-            Jedis jedis = jedisPool.getResource();
-            jedis.auth("12121212");
+            jedis.auth("1234");
             jedis.set(key,value);
         }catch (JedisException ex){
             logger.error("set fail.");
+            jedisPool.returnBrokenResource(jedis);
+            throw new RedisException(-500,"redis internal error");
+        }
+    }
+    public static void delete(Day day,String key)throws Exception{
+        JedisPool jedisPool = jedisPoolMap.get(day);
+        Jedis jedis = jedisPool.getResource();
+        try{
+            jedis.auth("1234");
+            jedis.del(key);
+        }catch (JedisException ex){
+            logger.error("set fail.");
+            jedisPool.returnBrokenResource(jedis);
             throw new RedisException(-500,"jedis internal error");
         }
+    }
+
+    private static JedisPool getJedisPool(Day day) throws RedisException {
+        JedisPool jedisPool = jedisPoolMap.get(day);
+        if(jedisPool == null)
+            throw new RedisException(-404, "jedis pool not found");
+        return jedisPool;
     }
 }

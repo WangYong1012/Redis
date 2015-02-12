@@ -1,5 +1,6 @@
 package com.fqz.service;
 
+import com.fqz.exception.RedisException;
 import com.fqz.util.RedisUtil;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +12,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class RedisService {
 
-    public void addValue(String key,String value) throws Exception {
-        RedisUtil.set(RedisUtil.Day.MONDAY,key,value);
+    public void addValue(String key,String value) throws RedisException {
+        RedisUtil.set(RedisUtil.Day.FRIDAY,key,value);
     }
 }
