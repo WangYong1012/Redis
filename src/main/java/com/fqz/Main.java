@@ -1,7 +1,9 @@
 package com.fqz;
 
 
+import com.fqz.common.ConcretTemplatePattern;
 import com.fqz.common.PersonBuilder;
+import com.fqz.common.TemplatePattern;
 import com.fqz.model.Person;
 
 /**
@@ -16,5 +18,7 @@ public class Main {
         Person person = builder.setAge(25).setName("fqz")
                 .setHeight(1.75).setSex((short) 1).addFavor("123").addFavor("343434").build();
 
+        TemplatePattern template = new ConcretTemplatePattern();
+        template.action();
     }
 }
